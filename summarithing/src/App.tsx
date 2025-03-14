@@ -1,12 +1,22 @@
-function App() {
+import FileTextInput from './components/FileTextInput';
+
+const App = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white">
-      <h1 className="text-4xl font-bold">Hello, Tailwind 3! 🎉</h1>
-      <button className="mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-800 rounded-lg shadow-lg">
-        Click Me
-      </button>
-    </div>
+    <>
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-grow flex flex-col justify-center items-center transform">
+          <h1 className="mb-4 text-3xl font-orbit-600 antialiased">요약요정: 요요</h1>
+          <h2 className="mb-10 font-sans text-neutral-700 antialiased">
+            이거 언제 다 읽어요? 🤖✨ 요요가 핵심만 쏙쏙 요약해드릴게요!
+          </h2>
+          <FileTextInput />
+        </div>
+        <footer className="p-5 text-sm text-center text-gray-500">
+          &copy; {new Date().getFullYear()} msh. All rights reserved.
+        </footer>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
