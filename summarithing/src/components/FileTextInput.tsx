@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import 'pdfjs-dist';
+import * as pdfjs from 'pdfjs-dist';
 
 type Inputs = {
   example: string;
@@ -19,6 +19,39 @@ const FileTextInput: React.FC = () => {
   const [fileName, setFileName] = useState<string>('');
   const onSubmit = (data: { text: string }) => console.log('submit!', data);
   const textContent = watch('text');
+
+  const extractText = async (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      if (!e.target?.result) return;
+      const typedArray = new Uint8Array(e.target.result as ArrayBuffer);
+
+      try {
+        const pdf = await pdfjs.getDocument({ data: typedArray }).promise;
+      } catch (error) {}
+    };
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setFileName(file.name);
+
+    if (file.type === 'application/pdf') {
+      await extractText(file);
+    } else {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          setValue('text', e.target.result as string);
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+  };
 
   return (
     <div className=" w-4xl ">
