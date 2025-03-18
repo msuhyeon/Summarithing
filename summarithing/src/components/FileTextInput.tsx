@@ -2,6 +2,9 @@ import { ChangeEvent, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as pdfjs from 'pdfjs-dist';
 
+pdfjs.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+
 type Inputs = {
   example: string;
   exampleRequired: string;
@@ -19,8 +22,11 @@ const FileTextInput: React.FC = () => {
   const [fileName, setFileName] = useState<string>('');
   const onSubmit = (data: { text: string }) => console.log('submit!', data);
   const textContent = watch('text');
-
   const extractText = async (file: File) => {
+    if (!file) {
+      console.error('파일이 없습니다!');
+      return;
+    }
     const reader = new FileReader();
 
     reader.onload = async (e) => {
@@ -29,8 +35,16 @@ const FileTextInput: React.FC = () => {
 
       try {
         const pdf = await pdfjs.getDocument({ data: typedArray }).promise;
-      } catch (error) {}
+      } catch (error) {
+        console.error('PDF 로딩 중 오류 발생:', error);
+      }
     };
+
+    reader.onerror = (e) => {
+      console.error('FileReader 오류 발생:', e);
+    };
+
+    reader.readAsArrayBuffer(file);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
