@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as pdfjs from 'pdfjs-dist';
+import fetch from '../api/fetchWrapper';
 
 pdfjs.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
@@ -15,7 +16,14 @@ const FileTextInput: React.FC = () => {
   } = useForm();
 
   const [fileName, setFileName] = useState<string>('');
-  const onSubmit = (data: { text: string }) => console.log('submit!', data);
+  const onSubmit = (data: { text: string }) => {
+    if (!data || !data.text) {
+      console.error('data가 없거나 text 값이 없음: ', data);
+      return;
+    }
+    handleExtractKeywords(data);
+  };
+
   const textContent = watch('text');
   const extractText = async (file: File) => {
     if (!file) {
@@ -75,6 +83,14 @@ const FileTextInput: React.FC = () => {
       };
       reader.readAsText(file, 'UTF-8');
     }
+  };
+
+  const handleExtractKeywords = async (data) => {
+    if (!data) return;
+
+    // 추출된 list는 부모 컴포넌트로 보냄
+    const extractedKeywords = await fetch('/extract-keywords', 'POST', data);
+    const extracted = await handleExtractKeywords(data.text);
   };
 
   return (
