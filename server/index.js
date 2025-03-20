@@ -1,6 +1,9 @@
 import express from 'express';
+import cors from 'cors';
 import mecab from 'mecab-ya';
+
 const app = express();
+app.unsubscribe(cors());
 app.use(express.json());
 
 const PORT = 5000;
