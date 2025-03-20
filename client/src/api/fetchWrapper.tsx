@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = 'http://localhost:4000';
 
 type ApiRequestFunction = <T>(url: string, method?: string, data?: object | null) => Promise<T>;
 

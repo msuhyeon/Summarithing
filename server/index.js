@@ -3,10 +3,10 @@ import cors from 'cors';
 import mecab from 'mecab-ya';
 
 const app = express();
-app.unsubscribe(cors());
+app.use(cors());
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = 4000;
 
 app.get('/', (req, res) => {
   res.send('Server Start!');
@@ -17,10 +17,14 @@ app.post('/extract-keywords', async (req, res) => {
     const { text } = req.body;
 
     // 형태소 분석
-    const result = await mecab.parse(text);
+    const result = mecab.nouns(text, function (err, result) {
+      console.log(result);
+    });
+
+    res.json({ keywords: result });
   } catch (error) {
     console.error(`Error in extract-keywords: ${error}`);
-    throw new Error();
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
