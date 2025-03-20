@@ -21,7 +21,10 @@ const FileTextInput: React.FC = () => {
       console.error('data가 없거나 text 값이 없음: ', data);
       return;
     }
-    handleExtractKeywords(data);
+
+    const replacedText = data.text ? data.text.replace(/\0/g, '') : '';
+
+    handleExtractKeywords(replacedText);
   };
 
   const textContent = watch('text');
@@ -90,7 +93,6 @@ const FileTextInput: React.FC = () => {
 
     // 추출된 list는 부모 컴포넌트로 보냄
     const extractedKeywords = await fetch('/extract-keywords', 'POST', data);
-    const extracted = await handleExtractKeywords(data.text);
   };
 
   return (
