@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import * as pdfjs from 'pdfjs-dist';
 import fetch from '../api/fetchWrapper';
 
@@ -22,9 +22,9 @@ const FileTextInput: React.FC = () => {
       return;
     }
 
-    const replacedText = data.text ? data.text.replace(/\0/g, '') : '';
+    // const replacedText = data.text ? data.text.replace(/\0/g, '') : '';
 
-    handleExtractKeywords(replacedText);
+    handleExtractKeywords(data.text);
   };
 
   const textContent = watch('text');
@@ -92,7 +92,9 @@ const FileTextInput: React.FC = () => {
     if (!data) return;
 
     // 추출된 list는 부모 컴포넌트로 보냄
-    const extractedKeywords = await fetch('/extract-keywords', 'POST', data);
+    const extractedKeywords = await fetch('/analyze', 'POST', { content: data });
+
+    console.log('extractedKeywords?', extractedKeywords);
   };
 
   return (
