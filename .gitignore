@@ -1,0 +1,62 @@
+# Client Side 
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+client/node_modules/
+
+# Build Output
+client/dist/
+client/dist-ssr/
+client/.vite/
+
+# Local env
+*.local
+
+# Editor
+client/.vscode/
+!.vscode/extensions.json  
+
+# Server Side 
+
+# Python bytecode / packages
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+*.sqlite3
+*.db
+
+
+# Build
+build/
+dist/
+*.log
+
+# Virtualenv / config
+venv/
+.env
+.server/
+.venv/
+
+# Test
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
