@@ -43,7 +43,6 @@ dist/
 # Virtualenv / config
 venv/
 .env
-.server/
 .venv/
 
 # Test
