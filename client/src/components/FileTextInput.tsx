@@ -92,7 +92,7 @@ const FileTextInput: React.FC = () => {
     if (!data) return;
 
     // 추출된 list는 부모 컴포넌트로 보냄
-    const extractedKeywords = await fetch('/analyze', 'POST', { content: data });
+    const extractedKeywords = await fetch('/summarize', 'POST', { content: data });
 
     console.log('extractedKeywords?', extractedKeywords);
   };
