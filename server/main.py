@@ -5,7 +5,7 @@ from konlpy.tag import Okt
 from collections import Counter
 from dotenv import load_dotenv
 
-import openai
+from openai import OpenAI
 import os
 
 app = FastAPI()
@@ -24,7 +24,7 @@ class TextInput(BaseModel):
 @app.post("/summarize")
 async def analyze_text(data: TextInput):
     keywords = extract_keyword(data.content)
-    summary = await call_openai(data.content)
+    summary = call_openai(data.content)
 
     return {
         "keywords": keywords,
@@ -41,16 +41,21 @@ def extract_keyword(text: str, keyword_count: int = 4) -> list[str]:
 
 load_dotenv()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI()
+client.api_key = os.getenv("OPENAI_API_KEY")
 
 def call_openai(text: str) -> str:
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "넌 긴 글을 요약하는 전문가야. 다음 텍스트를 보고 중요 포인트를 잘 찾아서 3줄로 요약해줘."},
-            {"role": "user", "content": text}
-        ],
-        temperature=0.7,
-        max_tokens=500
-    )
-    return response.choices[0].message["content"]
+    # print("STR")
+    try: 
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "넌 긴 글을 요약하는 전문가야. 다음 텍스트를 보고 중요 포인트를 잘 찾아서 3줄로 요약해줘."},
+                {"role": "user", "content": text}
+            ],
+            max_tokens=500
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print("OpenAI 호출 에러:", e)
+        return "요약 중 오류 발생"
