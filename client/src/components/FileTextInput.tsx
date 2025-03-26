@@ -6,7 +6,11 @@ import fetch from '../api/fetchWrapper';
 pdfjs.GlobalWorkerOptions.workerSrc =
   'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
 
-const FileTextInput: React.FC = () => {
+type FileTextInputProps = {
+  onSendData: (data: { keywords: string[]; summary: string }) => void;
+};
+
+const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
   const {
     register,
     handleSubmit,
@@ -21,8 +25,6 @@ const FileTextInput: React.FC = () => {
       console.error('data가 없거나 text 값이 없음: ', data);
       return;
     }
-
-    // const replacedText = data.text ? data.text.replace(/\0/g, '') : '';
 
     handleExtractKeywords(data.text);
   };
@@ -92,13 +94,12 @@ const FileTextInput: React.FC = () => {
     if (!data) return;
 
     // 추출된 list는 부모 컴포넌트로 보냄
-    const extractedKeywords = await fetch('/summarize', 'POST', { content: data });
-
-    console.log('extractedKeywords?', extractedKeywords);
+    const extractedData = await fetch('/summarize', 'POST', { content: data });
+    onSendData(extractedData as { keywords: string[]; summary: string });
   };
 
   return (
-    <div className=" w-4xl ">
+    <div className="w-4xl max-w-4xl">
       <form
         // handleSubmit의 역할: react-hook-form에서 지공하는 고차함수
         // onSubmit 이벤트 발생 시 내부적으로 폼 데이터를 검증 후 검증이 통과하면 onSubmit 콜백 실행
