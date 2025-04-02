@@ -99,7 +99,7 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
   };
 
   return (
-    <div className="w-4xl max-w-4xl">
+    <div className="w-full max-w-4xl">
       <form
         // handleSubmit의 역할: react-hook-form에서 지공하는 고차함수
         // onSubmit 이벤트 발생 시 내부적으로 폼 데이터를 검증 후 검증이 통과하면 onSubmit 콜백 실행
@@ -113,10 +113,9 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
             required:
               '요약할 텍스트를 입력하거나 파일을 업로드하세요. (pdf, txt 확장자만 가능합니다.)',
           })}
-          className="w-full p-5 h-auto max-h-60 overflow-y-auto focus:outline-none resize-none"
+          className="w-full p-5 h-auto max-h-60 overflow-y-auto focus:outline-none resize-none dark:text-white"
           placeholder="요약할 텍스트를 입력하거나 파일을 업로드하세요. (pdf, txt 확장자만 가능합니다.)"
         ></textarea>
-
         <div className="w-full flex justify-between py-3 px-5">
           <label className="w-10 flex items-center justify-center text-gray-500 cursor-pointer hover:text-gray-700 transition">
             <input type="file" className="hidden" accept=".txt, .pdf" onChange={handleFileUpload} />
@@ -136,14 +135,14 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
             </svg>
           </label>
           {errors.text && !textContent && (
-            <p className="text-red-500 text-sm mt-1 px-5 flex items-center ">
+            <p className="text-red-500 text-sm mt-1 px-5 flex items-center dark:text-amber-300">
               {errors.text.message}
             </p>
           )}
           <svg className="size-6 animate-bounce"></svg>
           <button
             type="submit"
-            className={`relative bg-yellow-400 hover:bg-yellow-500 text-white text-base font-semibold py-2 px-5 rounded-lg  transition-all duration-200 ease-in-out  cursor-pointer ${fileName && 'animate-bounce'}`}
+            className={`relative bg-yellow-400 hover:bg-yellow-500 text-white text-base font-semibold py-2 px-5 rounded-lg  transition-all duration-200 ease-in-out  cursor-pointer ${fileName && 'animate-bounce'} dark:bg-amber-600 dark:hover:bg-amber-500 `}
           >
             요약하기
           </button>

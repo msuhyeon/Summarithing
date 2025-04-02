@@ -1,5 +1,3 @@
-
-
 const SummarizingResult = ({ summaryData }) => {
   const { keywords, summary } = summaryData;
 
