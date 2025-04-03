@@ -1,6 +1,6 @@
-import Header from './components/Header';
-import FileTextInput from './components/FileTextInput';
-import SummarizingResult from './components/SummarizingResult';
+import Header from '../../client-next/src/components/Header';
+import FileTextInput from '../../client-next/src/components/FileTextInput';
+import SummarizingResult from '../../client-next/src/components/SummarizingResult';
 import { useEffect, useRef, useState } from 'react';
 
 type ExtractData = {

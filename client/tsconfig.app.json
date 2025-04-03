@@ -22,5 +22,13 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "declarations.d.ts"]
+  "include": [
+    "src",
+    "declarations.d.ts",
+    "../client-next/src/app/main.tsx",
+    "../client-next/src/components/FileTextInput.tsx",
+    "../client-next/src/components/Header.tsx",
+    "../client-next/src/components/SummarizingResult.tsx",
+    "../client-next/src/lib/fetchWrapper.tsx"
+  ]
 }

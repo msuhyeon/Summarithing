@@ -49,7 +49,7 @@ def call_openai(text: str) -> str:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "넌 긴 글을 요약하는 전문가야. 다음 텍스트를 보고 중요 포인트를 잘 찾아서 3줄로 요약해줘."},
+                {"role": "system", "content": "넌 긴 글을 요약하는 전문가야. 다음 텍스트를 보고 중요 포인트를 잘 찾아서 친절한 태도로 5문장으로 요약해줘."},
                 {"role": "user", "content": text}
             ],
             max_tokens=500

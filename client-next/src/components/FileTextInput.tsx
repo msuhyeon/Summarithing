@@ -1,10 +1,9 @@
-import { useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as pdfjs from 'pdfjs-dist';
-import fetch from '../api/fetchWrapper';
-
-pdfjs.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+import fetch from '../lib/fetchWrapper';
 
 type FileTextInputProps = {
   onSendData: (data: { keywords: string[]; summary: string }) => void;
@@ -28,6 +27,11 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
 
     handleExtractKeywords(data.text);
   };
+
+  useEffect(() => {
+    pdfjs.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.7.107/pdf.worker.min.js';
+  }, []);
 
   const textContent = watch('text');
   const extractText = async (file: File) => {
@@ -91,6 +95,8 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
   };
 
   const handleExtractKeywords = async (data) => {
+    console.log('data-', data);
+
     if (!data) return;
 
     // 추출된 list는 부모 컴포넌트로 보냄
@@ -142,7 +148,9 @@ const FileTextInput: React.FC<FileTextInputProps> = ({ onSendData }) => {
           <svg className="size-6 animate-bounce"></svg>
           <button
             type="submit"
-            className={`relative bg-yellow-400 hover:bg-yellow-500 text-white text-base font-semibold py-2 px-5 rounded-lg  transition-all duration-200 ease-in-out  cursor-pointer ${fileName && 'animate-bounce'} dark:bg-amber-600 dark:hover:bg-amber-500 `}
+            className={`relative bg-yellow-400 hover:bg-yellow-500 text-white text-base font-semibold py-2 px-5 rounded-lg  transition-all duration-200 ease-in-out  cursor-pointer ${
+              fileName && 'animate-bounce'
+            } dark:bg-amber-600 dark:hover:bg-amber-500 `}
           >
             요약하기
           </button>
