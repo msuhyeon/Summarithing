@@ -13,10 +13,12 @@ type ExtractData = {
 const MainContents = () => {
   const [summaryData, setSummaryData] = useState<ExtractData>(null);
   const [mode, setMode] = useState<'input' | 'result'>('input');
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem('theme') === 'dark';
-  });
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const modeRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setDarkMode(localStorage.getItem('theme') === 'dark');
+  }, []);
 
   useEffect(() => {
     if (modeRef.current) {

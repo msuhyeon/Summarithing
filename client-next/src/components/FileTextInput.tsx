@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as pdfjs from 'pdfjs-dist';
+import * as pdfjs from 'pdfjs-dist/legacy/build/pdf';
+
 import fetch from '../lib/fetchWrapper';
 
 type FileTextInputProps = {
